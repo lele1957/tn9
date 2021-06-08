@@ -7,6 +7,7 @@ require_relative './cargo_train'
 require_relative './cargo_car'
 require_relative './passenger_car'
 
+# rubocop:disable Metrics/ClassLength
 class Menu
   def initialize
     @trains_list = []
@@ -23,7 +24,7 @@ class Menu
     end
   end
 
-  # все методы снизу private, потому что не должны вызываться извне, они используются для взаимодействия с пользователям через командно-текстовый интерфейс
+  # all methods below are private, because they should not be called from the outside, they are used to interact with users through the command-text interface
   private
 
   def options
@@ -60,6 +61,7 @@ class Menu
     @trains_list << train_title
   end
 
+  # rubocop:disable Lint/UselessAssignment
   def create_station
     puts 'Создать станцию:'
     puts 'Введите название для объекта станции'
@@ -88,6 +90,7 @@ class Menu
     puts "Маршрут #{route_title} со станциями #{route_title.stations} был создан"
   end
 
+  # rubocop:enable Lint/UselessAssignment
   def routes
     puts 'Выберите маршрут из списка'
     @routes_list.each_with_index { |route, number| puts "#{number + 1} - #{route.stations}" }
@@ -166,7 +169,9 @@ class Menu
     trains
     train_from_list = gets.chomp.to_i
     puts 'Выберите вагон из списка:'
-    @trains_list[train_from_list - 1].railcars.each_with_index { |car, number| puts "#{number + 1} - #{car} #{car.id}" }
+    @trains_list[train_from_list - 1].railcars.each_with_index do |car, number|
+      puts "#{number + 1} - #{car} #{car.id}"
+    end
     car_to_delete = gets.chomp.to_i
     @cars_list << @trains_list[train_from_list - 1].railcars[car_to_delete - 1]
     @trains_list[train_from_list - 1].drop_car(@trains_list[train_from_list - 1].railcars[car_to_delete - 1])
@@ -215,6 +220,7 @@ class Menu
     end
   end
 
+  # rubocop:disable Lint/Void
   def view_railcar_list
     trains
     train_to_view = gets.chomp.to_i
@@ -229,6 +235,7 @@ class Menu
         "занятого объема - #{car.volume_filled}"
         "свободного объема - #{car.volume_left}"
       end
+      # rubocop:enable Lint/Void
     end
   end
 
@@ -241,6 +248,7 @@ class Menu
     end
   end
 
+  # rubocop:disable Metrics/MethodLength
   def read(command)
     case command
     when '0'
@@ -285,4 +293,6 @@ class Menu
       abort 'Программа завершена'
     end
   end
+  # rubocop:enable Metrics/MethodLength
 end
+# rubocop:enable Metrics/ClassLength

@@ -71,7 +71,7 @@ class Train
 
   protected
 
-  # эти методы не ипользуются вне класса, но при этом должны работать с объектами класса(self)
+  # these methods are not used outside the class, but they must work with class objects (self)
 
   def validate!
     raise "number doesn't match format" if number !~ NUMBER_FORMAT
